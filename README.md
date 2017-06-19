@@ -64,6 +64,7 @@ Will order the results, returns a ```Queryer``` instance
 ```
 .run([{bool} log_query])
 ```
+**```run()``` must be called at the end of each expression chain**
 * Returns an event Object when used with ```findOne()``` or an Array of events when used with ```find()```
 * Returns a numberic, computed value if ```compute()``` was used
 
@@ -89,6 +90,7 @@ behavior
 behavior
   .find('click')
   .where('page_visibility', 'exists')
+  .run()
 ```
 
 > This will return the computed sum of all timestamps where the page_visibility tag is 'exists'
