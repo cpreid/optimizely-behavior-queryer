@@ -66,17 +66,18 @@ Will order the results, returns a ```Queryer``` instance
 
 ## Usage
 
+> This will average all of the timestamps across ```click``` events
 ```
 behavior
-.findOne()
+.findOne('click')
 .where('page_visibility', 'exists')
 .run('avg', 'time');
 ```
+> This will find all click events where page_visibility tag exists
 ```
 behavior
 .find('click')
 .where('page_visibility', 'exists')
-.run('avg', 'time', true);
 ```
 ```
 behavior
