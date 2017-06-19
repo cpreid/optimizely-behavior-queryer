@@ -91,6 +91,14 @@ behavior
   .where('page_visibility', 'exists')
 ```
 
+> This will return the computed sum of all timestamps where the page_visibility tag is 'exists'
+```
+behavior
+  .compute('sum', 'time')
+  .where('page_visibility', 'exists')
+  .run();
+```
+
 > Find all events where category is other
 ```
 behavior
@@ -99,7 +107,8 @@ behavior
   .run();
 ```
 
-> Find all events where category tag exists
+> Find all events where category tag exists (omitted comparator implies 'exists')
+
 ```
 behavior
   .find()
