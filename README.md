@@ -4,7 +4,7 @@ Add topics
 
 ### find
 ```
-.find({string|Array} event_type)
+.find([{string|Array} event_type])
 ```
  Returns a ```Queryer``` instance
 
@@ -15,7 +15,7 @@ Add topics
 
 ### findOne
 ```
-.findOne({string|Array} event_type)
+.findOne([{string|Array} event_type])
 ```
  Returns a ```Queryer``` instance
 
@@ -23,6 +23,17 @@ Add topics
 |-----------|--------|----------------------------------------------------|----------|---------|
 | event_type       | string | Event type to query for. Must be one of the following (click, pageview, custom) | no      |     all events    |
 | event_type      | Array  | An array of event types to query for. Must be one of the following (click, pageview, custom)                      | no      |    all events    |
+
+### compute
+```
+.compute([{string} aggregator_fnc], [{string} aggregator_field])
+```
+Returns a ```Queryer``` instance
+
+| parameter | type   | details                                            | required | default |
+|-----------|--------|----------------------------------------------------|----------|---------|
+| aggregator_fnc       | string | Function name to apply to result values. Can be one of the following ["nth", "count", "sum", "avg", "max", "min"]. Using an aggregator will implictly apply a pick rule to the specified  ```aggregator_field``` | no      |     -    |
+| aggregator_field      | string  | Field name to apply the function to. Using an aggregator will implictly apply a pick rule to the specified  ```aggregator_field```   | no      |    -    |
 
 ### where
 ```
@@ -51,10 +62,10 @@ Will order the results, returns a ```Queryer``` instance
 
 ### run
 ```
-.run([{string} aggregator_fnc], [{string} aggregator_field], [{bool} log_query])
+.run([{bool} log_query])
 ```
 * Returns an event Object when used with ```findOne()``` or an Array of events when used with ```find()```
-* Returns a single numeric value if an aggregator_fnc is used. 
+* Returns a numberic, computed value if ```compute()``` was used
 
 | parameter | type   | details                                            | required | default |
 |-----------|--------|----------------------------------------------------|----------|---------|
