@@ -90,21 +90,21 @@ behavior
 
 ```
 behavior
-.find('pageview')
-.where('time', 'lte', 1497662329070)
-.where('category', 'is', 'home')
-.orderBy('time', 'descending')
-.run();
+  .find('pageview')
+  .where('time', 'lte', 1497662329070)
+  .where('category', 'is', 'home')
+  .orderBy('time', 'descending')
+  .run();
 ```
 
 ```
 behavior
-.find()
-.where('time', 'lte', 1497662329070)
-.where('category', 'is', 'home')
-.where('page_visibility', 'is', 'hidden')
-.orderBy('time', 'descending')
-.run();
+  .find()
+  .where('time', 'lte', 1497662329070)
+  .where('category', 'is', 'home')
+  .where('page_visibility', 'is', 'hidden')
+  .orderBy('time', 'descending')
+  .run();
 ```
 
 ```
