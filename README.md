@@ -61,3 +61,63 @@ Will order the results, returns a ```Queryer``` instance
 | log_query      | bool  | Will console.log the query object    | false      |    -    |
 
 > Based on http://usejsdoc.org/tags-type.html & http://usejsdoc.org/tags-param.html
+
+## Usage
+
+```
+behavior
+.findOne()
+.where('page_visibility', 'exists')
+.run('avg', 'time');
+```
+```
+behavior
+.find('click')
+.where('page_visibility', 'exists')
+.run('avg', 'time', true);
+```
+```
+behavior
+.find()
+.where('time', 'lte', 1497662329070)
+.where('category', 'is', 'home')
+.orderBy('time', 'descending')
+.run();
+```
+
+```
+behavior
+.find('pageview')
+.where('time', 'lte', 1497662329070)
+.where('category', 'is', 'home')
+.orderBy('time', 'descending')
+.run();
+```
+
+```
+behavior
+.find()
+.where('time', 'lte', 1497662329070)
+.where('category', 'is', 'home')
+.where('page_visibility', 'is', 'hidden')
+.orderBy('time', 'descending')
+.run();
+```
+
+```
+behavior
+.findOne()
+.where('page_visibility', 'exists')
+.pick('time')
+.orderBy('time', 'ascending')
+.run()
+```
+
+> This will return a list of epoch timestamps across all events from oldest to newest
+```
+behavior
+.find()
+.orderBy('time', 'ascending')
+.pick('time')
+.run();
+```
