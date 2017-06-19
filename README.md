@@ -2,6 +2,15 @@
 > A wrapper for the Optimizely behavioral API that allows you to query using expressive methods instead of JSON Edit
 Add topics
 
+```
+// query for `click` events that 
+// happened in the last three hours
+behavior
+  .find('click')
+  .where('time', 'gte', new Date() - (3600 * 3 * 1000))
+  .run();
+```
+
 ### find
 ```
 .find([{string|Array} event_type])
