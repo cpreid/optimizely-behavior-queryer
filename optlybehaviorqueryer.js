@@ -28,11 +28,14 @@ var behavior = (function() {
     this.set_q_part = function(key, val) {
       q[key] = val;
     }
+    this.delete_q_part = function(key) {
+      delete q[key];
+    }
     this.addFilter = function(filter) {
       if (!('filter' in q)) q['filter'] = [];
       q['filter'].push(filter);
       return this;
-    }
+    }    
     this.addSort = function(sortrule) {
       if (!('sort' in q)) q['sort'] = [];
       q['sort'].push(sortrule);
@@ -78,19 +81,22 @@ var behavior = (function() {
     where: function(field, comparator, val) {
       // validate comparator
       var availablecomparators = getComparators(field);
-      if (availablecomparators.indexOf(comparator) < 0) throw 'comparator (' + comparator + ') not valid for field: ' + field;
+      comparator = comparator || 'exists';
+      if(availablecomparators.indexOf(comparator) < 0) throw 'comparator (' + comparator + ') not valid for field: ' + field;
+      if(comparator !== 'exists' && typeof val === 'undefined') throw 'you need a value when using comparator: ' + comparator;
 
       // identify if the field is a tag
       if (isTag(field)) {
         field = ['tags', field];
       } else {
         field = [field];
-      }
-      this.addFilter({
+      }      
+      var filter = {
         "field": field,
-        "comparator": comparator,
-        "value": val
-      });
+        "comparator": comparator        
+      }
+      if(comparator !== 'exists') filter.value = val;
+      this.addFilter(filter);
       return this;
     },
     type: function(types) {
