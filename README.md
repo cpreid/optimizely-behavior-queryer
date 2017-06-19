@@ -1,4 +1,6 @@
 # Optimizely Behavior Queryer
+> A wrapper for the Optimizely behavioral API that allows you to query using expressive methods instead of JSON Edit
+Add topics
 
 ### find
 ```
