@@ -79,6 +79,23 @@ behavior
   .find('click')
   .where('page_visibility', 'exists')
 ```
+
+> Find all events where category is other
+```
+behavior
+  .find()
+  .where('category', 'is', 'other')
+  .run();
+```
+
+> Find all events where category tag exists
+```
+behavior
+  .find()
+  .where('category')
+  .run();
+```
+
 ```
 behavior
   .find()
