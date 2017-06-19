@@ -25,7 +25,7 @@ var behavior = (function() {
     var q = {
       "version": "0.2"
     };
-    this.has_compute_aggregator = function() {
+    this.has_computational_aggregator = function() {
       return typeof q.reduce !== 'undefined' && q.reduce.aggregator !== 'undefined' && q.reduce.aggregator !== 'nth';
     }
     this.set_q_part = function(key, val) {
@@ -40,19 +40,20 @@ var behavior = (function() {
       return this;
     }    
     this.addSort = function(sortrule) {
+      if(this.has_computational_aggregator()) throw 'Cannot use sort with `compute`';
       if (!('sort' in q)) q['sort'] = [];
       q['sort'].push(sortrule);
       return this;
     }
-    this.compute = function(aggregate_fnc, aggregate_field) {
+    // this breaks when using in conjunction with a sort rule
+    this.addComputationalAggregator = function(aggregate_fnc, aggregate_field) {
       if(!(aggregate_fnc && aggregate_field)) throw 'aggregate_fnc && aggregate_field must be used in compute';
       
       this.setAggregator(aggregate_fnc);
-      this.pick(aggregate_field);
-      // this breaks when using in conjunction with a sort rule
+      this.pick(aggregate_field);      
     }
     this.run = function(log_query) { 
-      if(!this.has_compute_aggregator() && !('sort' in q)) {
+      if(!this.has_computational_aggregator() && !('sort' in q)) {
         this.orderBy('time', 'descending');
       }          
       log_query && console.log(q);
@@ -126,7 +127,7 @@ var behavior = (function() {
   return {
     compute: function(aggregate_fnc, aggregate_field) {
       var queryer = new Queryer();
-      queryer.compute(aggregate_fnc, aggregate_field);
+      queryer.addComputationalAggregator(aggregate_fnc, aggregate_field);
       return queryer;
     },    
     find: function(types) {
