@@ -69,58 +69,75 @@ Will order the results, returns a ```Queryer``` instance
 > This will average all of the timestamps across ```click``` events
 ```
 behavior
-.findOne('click')
-.where('page_visibility', 'exists')
-.run('avg', 'time');
+  .findOne('click')
+  .where('page_visibility', 'exists')
+  .run('avg', 'time');
 ```
 > This will find all click events where page_visibility tag exists
 ```
 behavior
-.find('click')
-.where('page_visibility', 'exists')
+  .find('click')
+  .where('page_visibility', 'exists')
 ```
+
+> Find all events where category is other
 ```
 behavior
-.find()
-.where('time', 'lte', 1497662329070)
-.where('category', 'is', 'home')
-.orderBy('time', 'descending')
-.run();
+  .find()
+  .where('category', 'is', 'other')
+  .run();
+```
+
+> Find all events where category tag exists
+```
+behavior
+  .find()
+  .where('category')
+  .run();
 ```
 
 ```
 behavior
-.find('pageview')
-.where('time', 'lte', 1497662329070)
-.where('category', 'is', 'home')
-.orderBy('time', 'descending')
-.run();
+  .find()
+  .where('time', 'lte', 1497662329070)
+  .where('category', 'is', 'home')
+  .orderBy('time', 'descending')
+  .run();
 ```
 
 ```
 behavior
-.find()
-.where('time', 'lte', 1497662329070)
-.where('category', 'is', 'home')
-.where('page_visibility', 'is', 'hidden')
-.orderBy('time', 'descending')
-.run();
+  .find('pageview')
+  .where('time', 'lte', 1497662329070)
+  .where('category', 'is', 'home')
+  .orderBy('time', 'descending')
+  .run();
 ```
 
 ```
 behavior
-.findOne()
-.where('page_visibility', 'exists')
-.pick('time')
-.orderBy('time', 'ascending')
-.run()
+  .find()
+  .where('time', 'lte', 1497662329070)
+  .where('category', 'is', 'home')
+  .where('page_visibility', 'is', 'hidden')
+  .orderBy('time', 'descending')
+  .run();
+```
+
+```
+behavior
+  .findOne()
+  .where('page_visibility', 'exists')
+  .pick('time')
+  .orderBy('time', 'ascending')
+  .run()
 ```
 
 > This will return a list of epoch timestamps across all events from oldest to newest
 ```
 behavior
-.find()
-.orderBy('time', 'ascending')
-.pick('time')
-.run();
+  .find()
+  .orderBy('time', 'ascending')
+  .pick('time')
+  .run();
 ```
