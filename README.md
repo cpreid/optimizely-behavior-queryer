@@ -1,6 +1,5 @@
 # Optimizely Behavior Queryer
-> A wrapper for the Optimizely behavioral API that allows you to query using expressive methods instead of JSON Edit
-Add topics
+> A wrapper for the Optimizely behavioral API that allows you to query using expressive methods instead of JSON
 
 E.g. - query for `click` events that happened in the last three hours
 ```
