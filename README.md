@@ -9,6 +9,14 @@ behavior
   .run();
 ```
 
+---
+
+> The following three methods return an instance of Queryer
+
+```behavior.find()```
+```behavior.findOne()```
+```behavior.compute()```
+
 ### find
 ```
 .find([{string|Array} event_type])
@@ -42,9 +50,13 @@ Returns a ```Queryer``` instance
 | aggregator_fnc       | string | Function name to apply to result values. Can be one of the following ["nth", "count", "sum", "avg", "max", "min"]. Using an aggregator will implictly apply a pick rule to the specified  ```aggregator_field``` | no      |     -    |
 | aggregator_field      | string  | Field name to apply the function to. Using an aggregator will implictly apply a pick rule to the specified  ```aggregator_field```   | no      |    -    |
 
-### where
+---
+
+> The following methods belong to the Queryer instance, and are chainable
+
+### Queryer.where
 ```
-.where({string} event_field, {string} comparator, {string|number|Array} compare_to_value)
+Queryer.where({string} event_field, {string} comparator, {string|number|Array} compare_to_value)
 ```
 Adds a filter rule to the query, returns a ```Queryer``` instance
 
@@ -56,9 +68,9 @@ Adds a filter rule to the query, returns a ```Queryer``` instance
 | compare_to_value      | number  | A value to compare the field against. Numbers can also use the following comparators ["gt", "gte", "lt", "lte", "between"]                     | yes, unless using 'exists' comparator     |    -    |
 | compare_to_value      | Array  | An array of values to compare to                      | yes, unless using 'exists' comparator     |    -    |
 
-### orderBy
+### Queryer.orderBy
 ```
-.orderBy({string} field, [{string} direction])
+Queryer.orderBy({string} field, [{string} direction])
 ```
 Will order the results, returns a ```Queryer``` instance
 
@@ -67,9 +79,9 @@ Will order the results, returns a ```Queryer``` instance
 | field       | string | Field to order by | yes      |     time    |
 | direction      | string  | Direction to order the result Array. Must be [ascending or descending]    | no      |    descending    |
 
-### run
+### Queryer.run
 ```
-.run([{bool} log_query])
+Queryer.run([{bool} log_query])
 ```
 **```run()``` must be called at the end of each expression chain**
 * Returns an event Object when used with ```findOne()``` or an Array of events when used with ```find()```
@@ -77,8 +89,6 @@ Will order the results, returns a ```Queryer``` instance
 
 | parameter | type   | details                                            | required | default |
 |-----------|--------|----------------------------------------------------|----------|---------|
-| aggregator_fnc       | string | Function name to apply to result values. Can be one of the following ["nth", "count", "sum", "avg", "max", "min"]. Using an aggregator will implictly apply a pick rule to the specified  ```aggregator_field``` | no      |     -    |
-| aggregator_field      | string  | Field name to apply the function to. Using an aggregator will implictly apply a pick rule to the specified  ```aggregator_field```   | no      |    -    |
 | log_query      | bool  | Will console.log the query object    | false      |    -    |
 
 > Based on http://usejsdoc.org/tags-type.html & http://usejsdoc.org/tags-param.html
