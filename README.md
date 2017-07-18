@@ -41,7 +41,7 @@ behavior
 
 ### compute
 ```
-.compute([{string} aggregator_fnc], [{string} aggregator_field])
+.compute({string} aggregator_fnc, {string} aggregator_field)
 ```
 Returns a ```Queryer``` instance
 
@@ -50,7 +50,18 @@ Returns a ```Queryer``` instance
 | aggregator_fnc       | string | Function name to apply to result values. Can be one of the following ["nth", "count", "sum", "avg", "max", "min"]. Using an aggregator will implictly apply a pick rule to the specified  ```aggregator_field``` | no      |     -    |
 | aggregator_field      | string  | Field name to apply the function to. Using an aggregator will implictly apply a pick rule to the specified  ```aggregator_field```   | no      |    -    |
 
+### hasConvertedOn
+```
+.hasConvertedOn({string} event_namespace)
+```
+Returns a ```boolean```
+
+| parameter | type   | details                                            | required | default |
+|-----------|--------|----------------------------------------------------|----------|---------|
+| event_namespace       | string | Will check to see if a user converted on an event. The argument format should be as follows "event_type.event_name", e.g. ```hasConvertedOn('pageview.home')``` | yes      |     -    |
+
 ---
+
 
 > The following methods belong to the Queryer instance, and are chainable
 
@@ -179,4 +190,13 @@ behavior
   .orderBy('time', 'ascending')
   .pick('time')
   .run();
+```
+
+> These will return a ```boolean``` given an event type & name
+```
+behavior
+  .hasConvertedOn('pageview.home');
+
+behavior
+  .hasConvertedOn('custom.custom_event_name');  
 ```
