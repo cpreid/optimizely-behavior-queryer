@@ -143,6 +143,15 @@ var behavior = (function() {
         'n': 0
       });
       return queryer;
+    },
+    hasConvertedOn: function(event_namespace) {
+      try {
+        var type = event_namespace.split('.')[0],
+            name = event_namespace.split('.')[1];
+        return !!this.findOne(type).where('name', 'is', name).run();
+      } catch(e) {        
+        return false;
+      }       
     }
   }
 })();
