@@ -19,7 +19,7 @@ behavior
 
 ### find
 ```
-.find([{string|Array} event_type])
+.find({string|Array} event_type)
 ```
  Returns a ```Queryer``` instance
 
