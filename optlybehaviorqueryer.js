@@ -22,9 +22,8 @@ var behavior = (function() {
   }
 
   var Queryer = function() {
-    var q = {
-      "version": "0.2"
-    };
+    var q = {"version": "0.2"},
+        resultsCallbacks = [];
     this.has_computational_aggregator = function() {
       return typeof q.reduce !== 'undefined' && q.reduce.aggregator !== 'undefined' && q.reduce.aggregator !== 'nth';
     }
@@ -52,16 +51,51 @@ var behavior = (function() {
       this.setAggregator(aggregate_fnc);
       this.pick(aggregate_field);      
     }
+    this.addCallback = function(fcn) {
+      resultsCallbacks.push(fcn);
+      return this;
+    }
     this.run = function(log_query) { 
       if(!this.has_computational_aggregator() && !('sort' in q)) {
         this.orderBy('time', 'descending');
       }          
       log_query && console.log(q);
-      return b_api.query(q);
+      // apply any callbacks to result set
+      var results = b_api.query(q);
+      if(resultsCallbacks) {
+        resultsCallbacks.forEach(function(fcn) {
+          results = fcn.call(null, results);
+        });
+      }
+      return results;
     }
   }
 
   Queryer.prototype = {
+    uniques: function(field) {
+      if(this.has_computational_aggregator()) throw 'Cannot fetch uniques when using computational'
+      if(!field) throw 'Field is a required argument for `uniques` method'
+      this.addCallback(function(results) {
+        var pieces            = field.split(/\./),
+            uniqueFieldValues = [],
+            results           = results || [];
+        // filter all results items, ensuring unique results items based on provided `field`
+        return results.filter(function(item) {
+          try {
+            if(pieces.length > 1) var possibleUniqueValue = item[pieces[0]][pieces[1]];
+            else var possibleUniqueValue = item[pieces[0]];
+          } catch(err) {
+            throw 'Unable to get `' + field + '` within results item (' + typeof(item) + ').';
+          }          
+          if(uniqueFieldValues.indexOf(possibleUniqueValue) < 0) {
+            uniqueFieldValues.push(possibleUniqueValue);
+            return true;
+          }
+          else return false;
+        });  
+      });    
+      return this;  
+    },
     setAggregator: function(fnc, params) {
       var reducer = {
         'aggregator': fnc
