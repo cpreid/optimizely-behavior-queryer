@@ -90,13 +90,25 @@ Will order the results, returns a ```Queryer``` instance
 | field       | string | Field to order by | yes      |     time    |
 | direction      | string  | Direction to order the result Array. Must be [ascending or descending]    | no      |    descending    |
 
+### Queryer.uniques
+```
+Queryer.uniques({string} field)
+```
+* Will filter results for records based on unique values for `field`
+
+| parameter | type   | details                                            | required | default |
+|-----------|--------|----------------------------------------------------|----------|---------|
+| field      | string  | Field used to enforce uniqueness of Event Object records. Can be top level object properties, or a property nested within tags. To ensure uniqueness for a tag, use: `tags.field_name`.   | true      |    -    |
+
+> Details on Event Objects https://developers.optimizely.com/x/behavior/#fields
+
 ### Queryer.run
 ```
 Queryer.run([{bool} log_query])
 ```
 **```run()``` must be called at the end of each expression chain**
 * Returns an event Object when used with ```findOne()``` or an Array of events when used with ```find()```
-* Returns a numberic, computed value if ```compute()``` was used
+* Returns a numeric, computed value if ```compute()``` was used
 
 | parameter | type   | details                                            | required | default |
 |-----------|--------|----------------------------------------------------|----------|---------|
@@ -183,6 +195,24 @@ behavior
   .run()
 ```
 
+> Find unique event records.
+```
+behavior
+  .find('pageview')
+  .where('name', 'is', 'product_detail_page')
+  .uniques('tags.product_id')
+  .run(true)
+```
+
+```
+behavior
+  .find('pageview')
+  .where('name', 'is', 'event_page')
+  .uniques('tags.event_date')
+  .uniques('tags.event_id')
+  .run(true);
+```  
+
 > This will return a list of epoch timestamps across all events from oldest to newest
 ```
 behavior
@@ -199,4 +229,9 @@ behavior
 
 behavior
   .hasConvertedOn('custom.custom_event_name');  
+```
+---
+Minifed Using
+```
+$ uglifyjs --compress -o optlybehaviorqueryer.min.js -- optlybehaviorqueryer.js
 ```
